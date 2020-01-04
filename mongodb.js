@@ -14,10 +14,29 @@ MongoClient.connect(
     }
 
     const db = client.db(databaseName);
-    
-    db.collection('users').insertOne({
-        name: "Lutfi Qaraman",
-        age: 35,
-    });
+
+    db.collection("tasks").insertMany(
+      [
+        {
+          description: "Learning NodeJS",
+          completed: true
+        },
+        {
+          description: "Watching Match",
+          completed: false
+        },
+        {
+          description: "Going to the mall",
+          completed: false
+        }
+      ],
+      (error, result) => {
+        if (error) {
+          return process.stdout.write("Unable to insert documents");
+        }
+
+        result.ops;
+      }
+    );
   }
 );
