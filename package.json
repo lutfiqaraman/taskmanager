@@ -9,7 +9,6 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "console": "integratedTerminal",
   "dependencies": {
     "mongodb": "^3.4.1"
   }
