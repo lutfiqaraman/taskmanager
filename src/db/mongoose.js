@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const validator = require("validator").default;
 
 const connectionURL = "mongodb://127.0.0.1:27017/task-manager-api";
 
@@ -8,24 +9,32 @@ mongoose.connect(connectionURL, {
   useCreateIndex: true
 });
 
-const User = mongoose.model("User", {
-  name: {
-    type: String
+const Task = mongoose.model("Task", {
+  description: {
+		type: String,
+		required: true,
+		validate(value) {
+			if (!validator.isLength(value, {min: 3, max: undefined})) {
+				throw new Error("Must be more than 3 characters");
+			}
+		}
   },
-  age: {
-    type: Number
+  completed: {
+		type: Boolean,
+		default: () => {
+			return false;
+		}
   }
 });
 
-const myInfo = new User({
-  name: "Lutfi",
-  age: 35
+const task = new Task({
+	description: "Learn how to do CRUD in Mongoose"
 });
 
-myInfo
-  .save()
-  .then(myInfo => {
-    console.log(myInfo);
+task
+	.save()
+  .then(taksinfo => {
+    console.log(taksinfo);
   })
   .catch(error => {
     if (error) throw error;
