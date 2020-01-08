@@ -13,6 +13,7 @@ const Task = mongoose.model("Task", {
   description: {
 		type: String,
 		required: true,
+		trim: true,
 		validate(value) {
 			if (!validator.isLength(value, {min: 3, max: undefined})) {
 				throw new Error("Must be more than 3 characters");
@@ -21,14 +22,12 @@ const Task = mongoose.model("Task", {
   },
   completed: {
 		type: Boolean,
-		default: () => {
-			return false;
-		}
+		default: false
   }
 });
 
 const task = new Task({
-	description: "Learn how to do CRUD in Mongoose"
+	description: "Push work to github"
 });
 
 task
