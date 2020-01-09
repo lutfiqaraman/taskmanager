@@ -1,8 +1,6 @@
 const express = require("express");
 require("./db/mongoose");
 
-const User = require("../models/user.model");
-
 const app = express();
 const port = process.env.PORT || 3000;
 
