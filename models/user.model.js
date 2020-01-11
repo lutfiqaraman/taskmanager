@@ -14,7 +14,7 @@ const User = mongoose.model("User", {
         lowercase: true,
         validate(value) {
             if (!validator.isEmail(value)) {
-                throw new Error("Password cannot contain password");
+                throw new Error("Email is wrong");
             }
         }
     },
