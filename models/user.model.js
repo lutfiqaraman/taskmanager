@@ -4,7 +4,7 @@ const validator = require("validator").default;
 const User = mongoose.model("User", {
     name: {
         type: String,
-        require: true,
+        required: true,
         trim: true
     },
     email: {

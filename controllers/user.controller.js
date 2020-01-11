@@ -7,10 +7,9 @@ exports.create = async (req, res) => {
   try {
     await user.save();
     res.status(201).send(user);
-  } catch(error) {
+  } catch (error) {
     res.status(400).send(error);
   }
-
 };
 
 // Fetch all users
@@ -32,5 +31,24 @@ exports.fetchById = async (req, res) => {
     res.send(user);
   } catch (error) {
     res.status(500).send(error);
+  }
+};
+
+// Update a user
+exports.UpdateById = async (req, res) => {
+  try {
+    const _id = req.params.id;
+    const user = await User.findByIdAndUpdate(_id, req.body, {
+      new: true,
+      runValidators: true
+    });
+
+    if (!user) {
+      return res.status(404).send();
+    }
+
+    res.send(user);
+  } catch (error) {
+    res.status(404).send(error);
   }
 };

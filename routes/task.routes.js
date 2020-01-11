@@ -4,4 +4,5 @@ module.exports = (app) => {
     app.post("/tasks", Task.create);
     app.get("/tasks", Task.fetchAll);
     app.get("/tasks/:id", Task.fetchById);
+    app.patch("/tasks/:id", Task.UpdateById);
 }
