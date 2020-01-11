@@ -4,6 +4,7 @@ module.exports = (app) => {
     
     app.post("/users", User.create);
     app.get("/users", User.fetchAll);
-    app.get("/users/:id", User.fetchById);
-    app.patch("/users/:id", User.UpdateById);
+    app.get("/users/:id", User.fetchUserById);
+    app.patch("/users/:id", User.updateUserById);
+    app.delete("/users/:id", User.deleteUserById);
 }

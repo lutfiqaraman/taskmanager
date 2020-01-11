@@ -23,7 +23,7 @@ exports.fetchAll = async (req, res) => {
 };
 
 // Fetch User by ID
-exports.fetchById = async (req, res) => {
+exports.fetchUserById = async (req, res) => {
   const _id = req.params.id;
 
   try {
@@ -35,7 +35,7 @@ exports.fetchById = async (req, res) => {
 };
 
 // Update a user
-exports.UpdateById = async (req, res) => {
+exports.updateUserById = async (req, res) => {
   try {
     const _id = req.params.id;
     const user = await User.findByIdAndUpdate(_id, req.body, {
@@ -52,3 +52,19 @@ exports.UpdateById = async (req, res) => {
     res.status(404).send(error);
   }
 };
+
+// Delete a user
+exports.deleteUserById = async (req, res) => {
+  try {
+    const _id = req.params.id;
+    const user = await User.findByIdAndDelete(_id);
+
+    if(!user) {
+      res.status(404).send("User is not exist");
+    }
+
+    res.send(user);
+  } catch (error) {
+    res.status(500).send(error);
+  }
+}

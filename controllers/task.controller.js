@@ -23,7 +23,7 @@ exports.fetchAll = async (req, res) => {
 };
     
 // Fetch Task by ID  
-exports.fetchById = async (req, res) => {
+exports.fetchTaskById = async (req, res) => {
   const _id = req.params.id;
 
   try {
@@ -35,7 +35,7 @@ exports.fetchById = async (req, res) => {
 };
 
 // Update a task
-exports.UpdateById = async (req, res) => {
+exports.updateTaskById = async (req, res) => {
   try {
     const _id = req.params.id;
     const task = await Task.findByIdAndUpdate(_id, req.body, {
@@ -52,4 +52,19 @@ exports.UpdateById = async (req, res) => {
     res.status(404).send(error);
   }
 };
-  
+
+// Delete a task
+exports.deleteTaskById = async (req, res) => {
+  try {
+    const _id = req.params.id;
+    const task = await Task.findByIdAndDelete(_id);
+    
+    if(!task) {
+      res.status(404).send("User is not exist");
+    }
+
+    res.send(task);
+  } catch (error) {
+    res.status(500).send(error);
+  }
+};
