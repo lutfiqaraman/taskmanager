@@ -59,7 +59,7 @@ exports.deleteUserById = async (req, res) => {
     const _id = req.params.id;
     const user = await User.findByIdAndDelete(_id);
 
-    if(!user) {
+    if (!user) {
       res.status(404).send("User is not exist");
     }
 
@@ -67,4 +67,4 @@ exports.deleteUserById = async (req, res) => {
   } catch (error) {
     res.status(500).send(error);
   }
-}
+};
