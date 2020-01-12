@@ -36,6 +36,14 @@ exports.fetchUserById = async (req, res) => {
 
 // Update a user
 exports.updateUserById = async (req, res) => {
+  const updates = Object.keys(req.body);
+  const allowedUpdates = ['name', 'email', 'password', 'age'];
+  const isValidOperation = updates.every((update) => allowedUpdates.includes(updates));
+
+  if (!isValidOperation) {
+    return res.status(400).send({ error: "Invalid updates!"});
+  }
+
   try {
     const _id = req.params.id;
     const user = await User.findByIdAndUpdate(_id, req.body, {
