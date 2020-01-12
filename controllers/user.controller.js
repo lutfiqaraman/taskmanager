@@ -41,7 +41,7 @@ exports.updateUserById = async (req, res) => {
   const isValidOperation = updates.every((update) => allowedUpdates.includes(updates));
 
   if (!isValidOperation) {
-    return res.status(400).send({ error: "Invalid updates!"});
+    return res.status(400).send({ error: "Invalid property to be updated"});
   }
 
   try {
