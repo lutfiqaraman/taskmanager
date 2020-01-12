@@ -36,6 +36,13 @@ exports.fetchTaskById = async (req, res) => {
 
 // Update a task
 exports.updateTaskById = async (req, res) => {
+  const updates = Object.keys(req.body);
+  const allowedUpdates = ["description", "completed"];
+  const isValidOperation = updates.every((update) => allowedUpdates.includes(update));
+
+  if (!isValidOperation) {
+    return res.status(400).send({ error: "Invalid property to be updated"});
+  }
   try {
     const _id = req.params.id;
     const task = await Task.findByIdAndUpdate(_id, req.body, {
