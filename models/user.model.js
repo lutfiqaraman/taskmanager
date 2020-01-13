@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 const validator = require("validator").default;
 const bcrypt = require("bcryptjs");
 
+// Schema of User
 const userSchema = new mongoose.Schema({
   name: {
     type: String,
@@ -41,6 +42,7 @@ const userSchema = new mongoose.Schema({
   }
 });
 
+// Authenticate the user
 userSchema.statics.findByCredentials = async (email, plainpassword) => {
   const user = await User.findOne({ email });
   const hashPassword = user.password; 
