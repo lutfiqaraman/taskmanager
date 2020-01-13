@@ -76,3 +76,16 @@ exports.deleteUserById = async (req, res) => {
     res.status(500).send(error);
   }
 };
+
+// Login User
+exports.userLogin = async (req, res) => {
+  try {
+    const email = req.body.email;
+    const plainPassword = req.body.password;
+
+    const user = await User.findByCredentials(email, plainPassword);
+    res.send(user);
+  } catch (error) {
+    res.status(400).send(error);
+  }
+};
