@@ -6,7 +6,8 @@ exports.create = async (req, res) => {
 
   try {
     await user.save();
-    res.status(201).send(user);
+    const token = await user.generateAuthToken();
+    res.status(201).send({ user, token });
   } catch (error) {
     res.status(400).send(error);
   }
@@ -84,7 +85,9 @@ exports.userLogin = async (req, res) => {
     const plainPassword = req.body.password;
 
     const user = await User.findByCredentials(email, plainPassword);
-    res.send(user);
+    const token = await user.generateAuthToken();
+
+    res.send({user, token});
   } catch (error) {
     res.status(400).send(error);
   }
