@@ -6,11 +6,13 @@ module.exports = app => {
   app.post("/users", User.create);
   app.post("/users/login", User.userLogin);
   
-  app.get("/users", auth, User.fetchAll);
+  app.get("/users/userprofile", auth, User.fetchUserProfile);
   app.get("/users/:id", User.fetchUserById);
   
   app.patch("/users/:id", User.updateUserById);
   
   app.delete("/users/:id", User.deleteUserById);
+
+  
 
 };

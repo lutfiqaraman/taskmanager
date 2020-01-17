@@ -14,13 +14,8 @@ exports.create = async (req, res) => {
 };
 
 // Fetch all users
-exports.fetchAll = async (req, res) => {
-  try {
-    const users = await User.find();
-    res.send(users);
-  } catch (error) {
-    res.status(500).send(error);
-  }
+exports.fetchUserProfile = async (req, res) => {
+  res.send(req.user);
 };
 
 // Fetch User by ID
