@@ -14,4 +14,6 @@ module.exports = app => {
 
   app.post("/users/login", User.userLogin);
   app.post("/users/logout", auth, User.userLogout);
+  app.post("/users/logoutall", auth, User.userLogoutAll);
+  
 };

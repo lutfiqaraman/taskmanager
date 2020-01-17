@@ -98,6 +98,17 @@ exports.userLogout = async (req, res) => {
 
     res.send();
   } catch (error) {
-    res.status(500).send();
+    res.status(500).send(error);
+  }
+}
+
+// User Logout all other sessions
+exports.userLogoutAll = async (req, res) => {
+  try {
+    req.user.tokens = [];
+    await req.user.save();
+    res.send();
+  } catch (error) {
+    res.status(500).send(error);
   }
 }
