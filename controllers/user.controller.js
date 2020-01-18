@@ -5,18 +5,6 @@ exports.fetchUserProfile = async (req, res) => {
   res.send(req.user);
 };
 
-// Fetch User by ID
-exports.fetchUserById = async (req, res) => {
-  const _id = req.params.id;
-
-  try {
-    const user = await User.findById(_id);
-    res.send(user);
-  } catch (error) {
-    res.status(500).send(error);
-  }
-};
-
 // Create a new user
 exports.create = async (req, res) => {
   const user = new User(req.body);
@@ -60,14 +48,8 @@ exports.updateUserById = async (req, res) => {
 // Delete a user
 exports.deleteUserById = async (req, res) => {
   try {
-    const _id = req.params.id;
-    const user = await User.findByIdAndDelete(_id);
-
-    if (!user) {
-      res.status(404).send("User is not exist");
-    }
-
-    res.send(user);
+    await req.user.remove();
+    res.send(req.user);
   } catch (error) {
     res.status(500).send(error);
   }
