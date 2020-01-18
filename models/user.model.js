@@ -51,6 +51,17 @@ const userSchema = new mongoose.Schema({
   }]
 });
 
+// Hide Private Data
+userSchema.methods.toJSON = function() {
+  const user = this;
+  const userInfo = user.toObject();
+
+  delete userInfo.password;
+  delete userInfo.tokens;
+
+  return userInfo;
+}
+
 // Generate Authentication Token
 userSchema.methods.generateAuthToken = async function () {
   const user = this;
