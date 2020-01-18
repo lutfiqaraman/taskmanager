@@ -19,7 +19,7 @@ exports.create = async (req, res) => {
 };
 
 // Update a user
-exports.updateUserById = async (req, res) => {
+exports.updateUser = async (req, res) => {
   const updates = Object.keys(req.body);
   const allowedUpdates = ["name", "email", "password", "age"];
   const isValidOperation = updates.every((update) => allowedUpdates.includes(update));
@@ -29,24 +29,17 @@ exports.updateUserById = async (req, res) => {
   }
 
   try {
-    const _id = req.params.id;
-    const user = await User.findById(_id);
+    updates.forEach((update) => req.user[update] = req.body[update]);
+    await req.user.save();
 
-    updates.forEach((update) => user[update] = req.body[update]);
-    await user.save();
-
-    if (!user) {
-      return res.status(404).send();
-    }
-
-    res.send(user);
+    res.send(req.user);
   } catch (error) {
     res.status(404).send(error);
   }
 };
 
 // Delete a user
-exports.deleteUserById = async (req, res) => {
+exports.deleteUser = async (req, res) => {
   try {
     await req.user.remove();
     res.send(req.user);
