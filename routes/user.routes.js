@@ -3,7 +3,7 @@ const auth = require("../src/middleware/auth");
 module.exports = app => {
   const User = require("../controllers/user.controller");
 
-  app.get("/users/user/ahowprofile", auth, User.fetchUserProfile);
+  app.get("/users/user/showprofile", auth, User.fetchUserProfile);
   
   app.post("/users/user/create", User.create);
 
