@@ -2,7 +2,12 @@ const Task = require("../models/task.model");
 
 // Create a new task
 exports.create = async (req, res) => {
-  const task = new Task(req.body);
+  const userId = req.user._id;
+
+  const task = new Task({
+    ...req.body,
+    owner: userId
+  });
 
   try {
     await task.save();
