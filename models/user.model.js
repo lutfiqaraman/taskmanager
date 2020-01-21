@@ -49,6 +49,8 @@ const userSchema = new mongoose.Schema({
       required: true
     }
   }]
+}, {
+  timestamps: true
 });
 
 // Hide Private Data
