@@ -5,7 +5,7 @@ module.exports = app => {
 
   app.post("/tasks/task/create", auth, Task.create);
   app.get("/tasks", Task.fetchAll);
-  app.get("/tasks/:id", Task.fetchTaskById);
+  app.get("/tasks/:id", auth, Task.fetchTaskById);
   app.patch("/tasks/:id", Task.updateTaskById);
   app.delete("/tasks/:id", Task.deleteTaskById);
 };
