@@ -34,7 +34,7 @@ exports.fetchTaskById = async (req, res) => {
 
   try {
     const ownerID = req.user._id;
-    const task = await Task.findOne({_id, owner: ownerID});
+    const task = await Task.findOne({ _id, owner: ownerID });
 
     if (!task) {
       return res.status(404).send();
@@ -50,21 +50,24 @@ exports.fetchTaskById = async (req, res) => {
 exports.updateTaskById = async (req, res) => {
   const updates = Object.keys(req.body);
   const allowedUpdates = ["description", "completed"];
-  const isValidOperation = updates.every((update) => allowedUpdates.includes(update));
+  const isValidOperation = updates.every(update =>
+    allowedUpdates.includes(update)
+  );
 
   if (!isValidOperation) {
-    return res.status(400).send({ error: "Invalid property to be updated"});
+    return res.status(400).send({ error: "Invalid property to be updated" });
   }
   try {
     const _id = req.params.id;
-    const task = await Task.findById(_id);
+    const ownerID = req.user._id;
+    const task = await Task.findOne({ _id, owner: ownerID });
 
-    updates.forEach((update) => task[update] = req.body[update]);
-    await task.save();
-    
     if (!task) {
       return res.status(404).send();
     }
+
+    updates.forEach(update => (task[update] = req.body[update]));
+    await task.save();
 
     res.send(task);
   } catch (error) {
@@ -76,10 +79,11 @@ exports.updateTaskById = async (req, res) => {
 exports.deleteTaskById = async (req, res) => {
   try {
     const _id = req.params.id;
-    const task = await Task.findByIdAndDelete(_id);
+    const ownerID = req.user._id;
+    const task = await Task.findOneAndDelete({ _id, owner: ownerID });
 
     if (!task) {
-      res.status(404).send("User is not exist");
+      res.status(404).send();
     }
 
     res.send(task);
