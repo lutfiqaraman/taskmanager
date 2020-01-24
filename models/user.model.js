@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 const validator = require("validator").default;
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+const Task = require("./task.model");
 
 require("dotenv").config();
 
@@ -119,6 +120,13 @@ userSchema.pre("save", async function(next) {
     user.password = bcrypt.hashSync(password, salt);
   }
 
+  next();
+});
+
+// Delete tasks when user is deleted
+userSchema.pre("remove", async function(next) {
+  const user = this;
+  await Task.deleteMany({ owner: user._id });
   next();
 });
 
