@@ -19,8 +19,17 @@ exports.create = async (req, res) => {
 
 // Fetch all tasks
 exports.fetchAll = async (req, res) => {
+  const taskStatus = {};
+
+  if (req.query.completed) {
+    taskStatus.completed = req.query.completed === "true"
+  }
+
   try {
-    await req.user.populate("usertasks").execPopulate();
+    await req.user.populate({
+      path: "usertasks",
+      match: taskStatus
+    }).execPopulate();
     res.send(req.user.usertasks);
   } catch (error) {
     res.status(500).send(error);
