@@ -20,9 +20,8 @@ exports.create = async (req, res) => {
 // Fetch all tasks
 exports.fetchAll = async (req, res) => {
   try {
-    const ownerID = req.user._id;
-    const tasks = await Task.find({ owner: ownerID });
-    res.send(tasks);
+    await req.user.populate("usertasks").execPopulate();
+    res.send(req.user.usertasks);
   } catch (error) {
     res.status(500).send(error);
   }
