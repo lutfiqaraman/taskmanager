@@ -29,7 +29,11 @@ exports.fetchAll = async (req, res) => {
     await req.user
       .populate({
         path: "usertasks",
-        match: taskStatus
+        match: taskStatus,
+        options: {
+          limit: parseInt(req.query.limit),
+          skip: parseInt(req.query.skip)
+        }
       })
       .execPopulate();
     res.send(req.user.usertasks);
