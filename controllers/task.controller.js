@@ -17,12 +17,20 @@ exports.create = async (req, res) => {
   }
 };
 
-// Fetch all tasks
+// Get All tasks /tasks?completed=true
+// Get All tasks /tasks?limit=10&skip=10 - show 10 tasks, skip 20 tasks
+// Get All tasks /tasks?sortBy=createdAt:desc
 exports.fetchAll = async (req, res) => {
   const taskStatus = {};
+  const sort = {};
 
   if (req.query.completed) {
     taskStatus.completed = req.query.completed === "true";
+  }
+
+  if (req.query.sortBy) {
+    const parts = req.query.sortBy.split(":");
+    sort[parts[0]] = parts[1] === "desc" ? -1 : 1;
   }
 
   try {
@@ -32,7 +40,8 @@ exports.fetchAll = async (req, res) => {
         match: taskStatus,
         options: {
           limit: parseInt(req.query.limit),
-          skip: parseInt(req.query.skip)
+          skip: parseInt(req.query.skip),
+          sort
         }
       })
       .execPopulate();
