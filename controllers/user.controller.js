@@ -1,5 +1,6 @@
 const User = require("../models/user.model");
 
+
 // Fetch all users
 exports.fetchUserProfile = async (req, res) => {
   res.send(req.user);
@@ -22,14 +23,16 @@ exports.create = async (req, res) => {
 exports.updateUser = async (req, res) => {
   const updates = Object.keys(req.body);
   const allowedUpdates = ["name", "email", "password", "age"];
-  const isValidOperation = updates.every((update) => allowedUpdates.includes(update));
+  const isValidOperation = updates.every(update =>
+    allowedUpdates.includes(update)
+  );
 
   if (!isValidOperation) {
-    return res.status(400).send({ error: "Invalid property to be updated"});
+    return res.status(400).send({ error: "Invalid property to be updated" });
   }
 
   try {
-    updates.forEach((update) => req.user[update] = req.body[update]);
+    updates.forEach(update => (req.user[update] = req.body[update]));
     await req.user.save();
 
     res.send(req.user);
@@ -57,7 +60,7 @@ exports.userLogin = async (req, res) => {
     const user = await User.findByCredentials(email, plainPassword);
     const token = await user.generateAuthToken();
 
-    res.send({user, token});
+    res.send({ user, token });
   } catch (error) {
     res.status(400).send(error);
   }
@@ -66,7 +69,7 @@ exports.userLogin = async (req, res) => {
 // User Logout
 exports.userLogout = async (req, res) => {
   try {
-    req.user.tokens = req.user.tokens.filter((token) => {
+    req.user.tokens = req.user.tokens.filter(token => {
       return token.token !== req.token;
     });
     await req.user.save();
@@ -75,7 +78,7 @@ exports.userLogout = async (req, res) => {
   } catch (error) {
     res.status(500).send(error);
   }
-}
+};
 
 // User Logout all other sessions
 exports.userLogoutAll = async (req, res) => {
@@ -86,9 +89,7 @@ exports.userLogoutAll = async (req, res) => {
   } catch (error) {
     res.status(500).send(error);
   }
-}
+};
 
 // User Profile image Upload
-exports.userProfileUpload = async (req, res) => {
-  
-}
+exports.userProfileUpload = async (req, res) => {};
