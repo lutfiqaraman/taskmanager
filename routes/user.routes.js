@@ -1,4 +1,5 @@
 const auth = require("../src/middleware/auth");
+const multer = require("multer");
 
 module.exports = app => {
   const User = require("../controllers/user.controller");
@@ -14,5 +15,7 @@ module.exports = app => {
   app.post("/users/login", User.userLogin);
   app.post("/users/logout", auth, User.userLogout);
   app.post("/users/logoutall", auth, User.userLogoutAll);
+
+  app.post("users/user/avatar", User.userProfileUpload);
   
 };

@@ -87,3 +87,7 @@ exports.userLogoutAll = async (req, res) => {
     res.status(500).send(error);
   }
 }
+
+exports.userProfileUpload = async (req, res) => {
+  
+}
