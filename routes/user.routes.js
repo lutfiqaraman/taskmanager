@@ -1,6 +1,6 @@
 const auth = require("../src/middleware/auth");
 var multer = require("multer");
-var upload = multer({ dest: "avatara" });
+var upload = multer({ dest: "avatars" });
 
 module.exports = app => {
   const User = require("../controllers/user.controller");
@@ -17,6 +17,6 @@ module.exports = app => {
   app.post("/users/logout", auth, User.userLogout);
   app.post("/users/logoutall", auth, User.userLogoutAll);
 
-  app.post("users/user/avatar", upload.single("avatar"), User.userProfileUpload);
+  app.post("/users/user/avatar", upload.single("avatar"), User.userProfileUpload);
   
 };
