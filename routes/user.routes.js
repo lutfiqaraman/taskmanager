@@ -1,6 +1,18 @@
 const auth = require("../src/middleware/auth");
 var multer = require("multer");
-var upload = multer({ dest: "avatars" });
+var upload = multer({ 
+  dest: "avatars",
+  limits: {
+    fileSize: 1000000
+  },
+  fileFilter(req, file, callBack) {
+    if (!file.originalname.match(/\.(jpg|jpeg|png)$/)) {
+      return callBack(new Error("Only jpg, jpeg, png formats are allowed"));
+    }
+
+    callBack(undefined, true);
+  }
+});
 
 module.exports = app => {
   const User = require("../controllers/user.controller");
