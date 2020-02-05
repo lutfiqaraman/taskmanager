@@ -91,12 +91,16 @@ exports.userLogoutAll = async (req, res) => {
   }
 };
 
-// User Profile image Upload
-exports.userProfileUpload = async (req, res) => {
-  try {
-    await res.send();
-  } catch (error) {
-    res.status(400).send({ error });
-  }
-  
+// Upload user profile image
+exports.uploadUserProfileImage = async (req, res) => {
+  req.user.avatar = req.file.buffer;
+  await req.user.save();
+  res.send();
+};
+
+// Delete user profile image
+exports.deleteUserProfileImage = async (req, res) => {
+  req.user.avatar = undefined;
+  await req.user.save();
+  res.send();
 };

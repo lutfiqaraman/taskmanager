@@ -16,6 +16,7 @@ module.exports = app => {
   app.post("/users/logout", auth, User.userLogout);
   app.post("/users/logoutall", auth, User.userLogoutAll);
 
-  app.post("/users/user/avatar", Upload.single("avatar"), User.userProfileUpload);
+  app.post("/users/user/avatar", auth, Upload.single("avatar"), User.uploadUserProfileImage);
+  app.delete("/users/user/avatar", auth, User.deleteUserProfileImage);
   
 };
