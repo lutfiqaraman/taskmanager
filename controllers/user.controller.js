@@ -1,4 +1,5 @@
 const User = require("../models/user.model");
+const sharp = require("sharp");
 
 // Fetch all users
 exports.fetchUserProfile = async (req, res) => {
@@ -92,8 +93,14 @@ exports.userLogoutAll = async (req, res) => {
 
 // Upload user profile image
 exports.uploadUserProfileImage = async (req, res) => {
-  req.user.avatar = req.file.buffer;
+  const buffer = await sharp(req.file.buffer)
+    .resize({ width: 160, height: 160 })
+    .png()
+    .toBuffer();
+
+  req.user.avatar = buffer;
   await req.user.save();
+  
   res.send();
 };
 
@@ -104,20 +111,19 @@ exports.deleteUserProfileImage = async (req, res) => {
   res.send();
 };
 
-// Get user profile 
+// Get user profile
 exports.getUserProfileImage = async (req, res) => {
   try {
     const userId = req.params.id;
     const user = await User.findById(userId, (err, doc) => {
       if (err || !doc || !doc.avatar) {
         res.status(400).send("User is not found !");
-      };
+      }
     });
 
-    res.set("Content-Type", "image/jpg");
+    res.set("Content-Type", "image/png");
     res.send(user.avatar);
-
   } catch (error) {
     res.status(404).send();
   }
-}
+};
