@@ -92,6 +92,11 @@ exports.userLogoutAll = async (req, res) => {
 };
 
 // User Profile image Upload
-exports.userProfileUpload = async (error, req, res, next) => {
-  res.status(400).send({ error: error.message });
+exports.userProfileUpload = async (req, res) => {
+  try {
+    await res.send();
+  } catch (error) {
+    res.status(400).send({ error });
+  }
+  
 };

@@ -1,4 +1,4 @@
-const auth = require("../src/middleware/auth");
+const auth = require("../src/middleware/auth.middleware");
 
 module.exports = app => {
   const Task = require("../controllers/task.controller");
