@@ -5,11 +5,26 @@ const sgMail = require("@sendgrid/mail");
 
 sgMail.setApiKey(sendGridKeyAPI);
 
-const msg = {
-    to: 'toemail@email.com',
-    from: 'fromemail@email.com',
-    subject: 'Twilio SendGrid Email',
-    text: 'Sending with SendGrid is fun and easy to do anywhere'
+// Send A welcome email
+exports.sendWelcomeEmail = (email, name) => {
+  const msg = {
+    to: email,
+    from: 'sender@email.com',
+    subject: 'Thanks for joining us',
+    text: `Welcome to the app, ${name}. I hope you enjoy using our product.`
   };
   
-sgMail.send(msg);
+  sgMail.send(msg);
+};
+
+// Send Exit email when user delete his account
+exports.sendExitEmail = (email, name) => {
+  const msg = {
+    to: email,
+    from: 'sender@email.com',
+    subject: 'Sorry to see go',
+    text: `Thanks ${name}, have a nice day.`
+  };
+  
+  sgMail.send(msg);
+};

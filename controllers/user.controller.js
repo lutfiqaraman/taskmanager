@@ -1,4 +1,5 @@
 const User = require("../models/user.model");
+const Email = require("../src/middleware/email.middleware");
 const sharp = require("sharp");
 
 // Fetch all users
@@ -12,7 +13,9 @@ exports.create = async (req, res) => {
 
   try {
     await user.save();
+    Email.sendWelcomeEmail(user.email, user.name);
     const token = await user.generateAuthToken();
+
     res.status(201).send({ user, token });
   } catch (error) {
     res.status(400).send(error);
@@ -45,6 +48,8 @@ exports.updateUser = async (req, res) => {
 exports.deleteUser = async (req, res) => {
   try {
     await req.user.remove();
+    Email.sendExitEmail(req.user.email, req.user.name);
+    
     res.send(req.user);
   } catch (error) {
     res.status(500).send(error);
@@ -111,7 +116,7 @@ exports.deleteUserProfileImage = async (req, res) => {
   res.send();
 };
 
-// Get user profile
+// Get user profile image
 exports.getUserProfileImage = async (req, res) => {
   try {
     const userId = req.params.id;
