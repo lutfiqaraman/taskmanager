@@ -1,18 +1,18 @@
 {
   "name": "task-manager",
   "version": "1.0.0",
-  "description": "",
+  "description": "A Nodejs Task Mananger App",
   "main": "index.js",
   "scripts": {
     "start": "node src/index.js",
     "dev": "nodemon src/index.js",
-    "test": "jest"
+    "test": "jest --watch"
   },
   "jest": {
     "testEnvironment": "node"
   },
   "keywords": [],
-  "author": "",
+  "author": "Lutfi Qaraman",
   "license": "ISC",
   "dependencies": {
     "@sendgrid/mail": "^6.5.1",
