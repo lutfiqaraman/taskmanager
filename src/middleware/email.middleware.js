@@ -1,4 +1,4 @@
-require("dotenv").config();
+require("dotenv").config({ path: "./config/.env" });
 
 const sendGridKeyAPI = process.env.SindGridKey;
 const sgMail = require("@sendgrid/mail");

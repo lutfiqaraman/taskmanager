@@ -4,7 +4,7 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const Task = require("./task.model");
 
-require("dotenv").config();
+require("dotenv").config({ path: "./config/.env" });
 
 // Schema of User
 const userSchema = new mongoose.Schema(
