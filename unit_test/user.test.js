@@ -5,6 +5,6 @@ test('should signup a new user', async () => {
    await request(app).post("/users/user/create").send({
        name: 'Mr. Test User',
        email: 'test@email.com',
-       password: 'MyPass777!'
+       password: 'Password000!'
     }).expect(201);
 });
