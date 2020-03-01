@@ -1,8 +1,9 @@
 const request = require("supertest");
 const express = require("express");
+const jwt = require("jsonwebtoken");
+const mongoose = require("mongoose");
 
 const app = express();
-const mongoose = require("mongoose");
 const User = require("../models/user.model");
 
 require("dotenv").config({ path: "./config/.env.test" });
@@ -10,10 +11,16 @@ require("dotenv").config({ path: "./config/.env.test" });
 app.use(express.json());
 require("../routes/user.routes")(app);
 
+const dummyUserID = mongoose.Types.ObjectId();
+
 const dummyUser = {
+    _id: dummyUserID,
     name: 'Test User',
     email: 'test@unittest.com',
-    password: '123@onetwo'
+    password: '123@onetwo',
+    tokens: [{
+        token: jwt.sign({ _id: dummyUserID}, process.env.JWT_PRIVATEKEY)
+    }]
 }
 
 beforeAll(async () => {
@@ -49,4 +56,30 @@ test("Should NOT - Nonexisting user should not login", async () => {
         email: dummyUser.email,
         password: "fake_password"
     }).expect(400);
+});
+
+test("Should - Get profile user", async () => {
+    await request(app).get("/users/user/showprofile")
+        .set("Authorization", `Bearer ${dummyUser.tokens[0].token}`)
+        .send()
+        .expect(200);
+});
+
+test("Should NOT - Get a user profile for unauthenticated user", async () => {
+    await request(app).get("/users/user/showprofile")
+        .send()
+        .expect(401);
+});
+
+test("Should - Delete account for a user", async () => {
+    await request(app).delete("/users/user/avatar")
+        .set("Authorization", `Bearer ${dummyUser.tokens[0].token}`)
+        .send()
+        .expect(200);
+});
+
+test("Should NOT - Delete account for an unauthenticated user", async () => {
+    await request(app).delete("/users/user/avatar")
+        .send()
+        .expect(401);
 });
