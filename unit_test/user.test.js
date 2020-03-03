@@ -1,27 +1,15 @@
 const request = require("supertest");
 const express = require("express");
-const jwt = require("jsonwebtoken");
-const mongoose = require("mongoose");
-
 const app = express();
 const User = require("../models/user.model");
+const mongoose = require("mongoose");
+const {dummyUserID, dummyUser, setupDatabase} = require("./fixtures/db");
 
 require("dotenv").config({ path: "./config/.env.test" });
 
 app.use(express.json());
+
 require("../routes/user.routes")(app);
-
-const dummyUserID = mongoose.Types.ObjectId();
-
-const dummyUser = {
-    _id: dummyUserID,
-    name: 'Test User',
-    email: 'test@unittest.com',
-    password: '123@onetwo',
-    tokens: [{
-        token: jwt.sign({ _id: dummyUserID}, process.env.JWT_PRIVATEKEY)
-    }]
-}
 
 beforeAll(async () => {
     await mongoose.connect(process.env.MONGODB_TEST_URL, {
@@ -31,10 +19,7 @@ beforeAll(async () => {
     });
 });
 
-beforeEach( async () => {
-    await User.deleteMany();
-    await new User(dummyUser).save();
-});
+beforeEach(setupDatabase);
 
 test("Should - sign up a new user ", async () => {
     const response = await request(app).post("/users/user/create").send({
